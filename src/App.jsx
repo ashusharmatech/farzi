@@ -1,10 +1,9 @@
-import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, createRoutesFromElements, Route, RouterProvider, useNavigate } from 'react-router-dom';
 import AuthRequired from './components/AuthRequired';
 import Layout from './components/Layout';
-import { Protected } from './components/Protected';
-import ErrorPage from './error-page';
-import Home from './routes/Home';
-import Member from './routes/Member';
+import Login from './routes/Login';
+import { useAuth } from './hooks/useAuth';
+import { AuthContext } from './context/AuthContext';
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -15,13 +14,19 @@ const router = createBrowserRouter(
 					<Route path="protected" element={<h1>Super secret info here</h1>} />
 				</Route>
 			</Route>
-			<Route path="/login" element={<h1>login</h1>} />
+			<Route path="/login" element={<Login />} />
 		</Route>
 	)
 );
 
 function App() {
-	return <RouterProvider router={router} />;
+	const { user, setUser, logout } = useAuth();
+
+	return (
+		<AuthContext.Provider value={{ user, setUser }}>
+			<RouterProvider router={router} />
+		</AuthContext.Provider>
+	);
 }
 
 export default App;

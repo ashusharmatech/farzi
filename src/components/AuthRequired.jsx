@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
+import { AuthContext } from '../context/AuthContext';
+import { useAuth } from '../hooks/useAuth';
+import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useUser } from '../hooks/useUser';
 
 export default function AuthRequired() {
-	// Check the authenticated status of the user
-	// If they're NOT logged in
-	// Send them to the login page
-	// If they ARE logged in
-	// Render the Outlet
 
-	let auth = { token: false };
-	return auth.token ? <Outlet /> : <Navigate to="/login" />;
-	return <Outlet />;
+ 	const { addUser, removeUser, setUser, getUser } = useUser();
+
+	const user  = getUser();
+	
+    console.log("User is  "+JSON.parse(user));
+	return user? <Outlet /> : <Navigate to="/login" />;
 }
