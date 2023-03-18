@@ -9,7 +9,7 @@ export interface User {
   authToken?: string;
 }
 
-export const useUser = () => {
+export const  useUser = () => {
   const { user, setUser } = useContext(AuthContext);
   const { getItem, setItem } = useLocalStorage();
 
