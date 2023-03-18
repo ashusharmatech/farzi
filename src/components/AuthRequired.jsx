@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Navigate, Outlet } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
 import { useAuth } from '../hooks/useAuth';
@@ -7,10 +7,22 @@ import { useUser } from '../hooks/useUser';
 
 export default function AuthRequired() {
 
- 	const { addUser, removeUser, setUser, getUser } = useUser();
+ 	const { user } = useAuth();
 
-	const user  = getUser();
+	useEffect(() => {
+		console.log("Use Effect is "+JSON.stringify(user));
+	})	
 	
-    console.log("User is  "+JSON.parse(user));
-	return user? <Outlet /> : <Navigate to="/login" />;
+	return (
+		<>
+			<ConsoleLog>ooo {user} 000</ConsoleLog>
+			{user? <Outlet /> : <Navigate to="/login" />}
+		</>
+		
+	);
 }
+
+const ConsoleLog = ({ children }) => {
+	console.log(children);
+	return false;
+  };
